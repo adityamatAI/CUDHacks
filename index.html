@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CUD Agent Hackathon 2026</title>
+<meta name="description" content="CUD Agent Hackathon — a two-day Computer Science × Cybersecurity hackathon about autonomous agents at Canadian University Dubai, hosted by the Software Engineering Club in partnership with etisalat by e&. 20–21 November 2026. AED 9,000 in prizes.">
+<meta name="theme-color" content="#0a0a0d">
+<meta property="og:title" content="CUD Agent Hackathon 2026">
+<meta property="og:description" content="Build the agent. Survive the agents. Put the agent to work. 20–21 Nov 2026 · Canadian University Dubai · AED 9,000 in prizes.">
+<meta property="og:image" content="assets/campus.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0d; --bg-2:#111116; --card:#15151b; --card-2:#1b1b23;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --text:#f4f4f6; --muted:#a3a3ae; --dim:#6d6d78;
+  --cud:#d7282f; --cud-2:#ff4b52; --eand:#e00800;
+  --ok:#3ddc97; --warn:#ffb547; --info:#6aa8ff;
+  --radius:18px; --max:1200px;
+  --ff-d:"Space Grotesk",system-ui,sans-serif; --ff:"Inter",system-ui,sans-serif; --ff-m:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:var(--bg);color:var(--text);font-family:var(--ff);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--cud-2);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+@media (max-width:600px){.wrap{padding:0 16px}}
+section{position:relative;padding:120px 0}
+@media (max-width:700px){section{padding:80px 0}}
+.eyebrow{font-family:var(--ff-m);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cud-2);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:1px;background:currentColor}
+h1,h2,h3{font-family:var(--ff-d);line-height:1.05;letter-spacing:-.02em}
+h2{font-size:clamp(2rem,5vw,3.4rem);margin:14px 0 18px}
+.lead{color:var(--muted);font-size:1.12rem;max-width:640px}
+.grad{background:linear-gradient(90deg,#fff 0%,#ffb3b6 45%,var(--cud-2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;font-weight:600;font-size:.98rem;transition:transform .2s,box-shadow .2s,background .2s}
+.btn-primary{background:var(--cud);color:#fff;box-shadow:0 10px 40px -10px rgba(215,40,47,.8)}
+.btn-primary:hover{transform:translateY(-2px);background:var(--cud-2);box-shadow:0 16px 50px -10px rgba(255,75,82,.9)}
+.btn-ghost{border:1px solid var(--line-2);background:rgba(255,255,255,.03)}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+.btn svg{width:18px;height:18px}
+
+/* NAV */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(10,10,13,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px;gap:20px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand img.cud{height:38px;width:auto}
+.brand .x{color:var(--dim);font-size:.9rem}
+.brand img.et{height:18px;width:auto}
+.nav-links{display:flex;gap:28px;font-size:.92rem;color:var(--muted)}
+.nav-links a:hover{color:#fff}
+.nav-cta{padding:10px 18px;font-size:.88rem}
+.burger{display:none;width:42px;height:42px;border-radius:12px;border:1px solid var(--line-2);align-items:center;justify-content:center}
+.burger span,.burger span::before,.burger span::after{display:block;width:18px;height:2px;background:#fff;position:relative;transition:.25s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.nav.open .burger span{background:transparent}
+.nav.open .burger span::before{top:0;transform:rotate(45deg)}
+.nav.open .burger span::after{top:0;transform:rotate(-45deg)}
+@media (max-width:980px){
+  .nav-links{position:fixed;top:74px;left:0;right:0;flex-direction:column;gap:0;background:rgba(10,10,13,.97);border-bottom:1px solid var(--line);padding:8px 16px 20px;transform:translateY(-120%);transition:transform .35s;z-index:-1}
+  .nav-links a{padding:14px 4px;border-bottom:1px solid var(--line);font-size:1.05rem;color:#fff}
+  .nav.open .nav-links{transform:none}
+  .nav.open{background:rgba(10,10,13,.97)}
+  .burger{display:inline-flex}
+  .nav-cta{display:none}
+}
+@media (max-width:420px){.brand img.cud{height:30px}.brand img.et{height:14px}.brand{gap:10px}}
+
+/* HERO */
+.hero{min-height:100vh;padding:140px 0 80px;display:flex;align-items:center;overflow:hidden}
+#net{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(900px 500px at 85% 10%,rgba(215,40,47,.28),transparent 60%),
+  radial-gradient(700px 500px at 0% 100%,rgba(224,8,0,.16),transparent 60%);pointer-events:none}
+.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%);pointer-events:none;opacity:.6}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+@media (max-width:980px){.hero .wrap{grid-template-columns:1fr;gap:48px}}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;border:1px solid var(--line-2);border-radius:999px;background:rgba(255,255,255,.04);font-size:.82rem;color:var(--muted)}
+.pill b{background:var(--cud);color:#fff;font-weight:600;padding:3px 10px;border-radius:999px;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.hero h1{font-size:clamp(3rem,8.4vw,6.4rem);margin:22px 0 22px;font-weight:700}
+.hero h1 .line2{display:block;color:var(--cud-2)}
+.hero .tagline{font-size:clamp(1.05rem,2vw,1.28rem);color:var(--muted);max-width:560px}
+.hero .tagline strong{color:#fff;font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:12px 28px;margin:30px 0 34px;font-size:.95rem}
+.meta div{display:flex;align-items:center;gap:10px;color:#e5e5ea}
+.meta svg{width:18px;height:18px;color:var(--cud-2);flex:none}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px}
+.countdown{display:flex;gap:10px;margin-top:40px}
+.cd{min-width:78px;padding:14px 10px;border:1px solid var(--line-2);border-radius:14px;background:rgba(255,255,255,.03);text-align:center}
+.cd b{display:block;font-family:var(--ff-m);font-size:1.9rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.cd span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+@media (max-width:420px){.cd{min-width:0;flex:1}.cd b{font-size:1.5rem}}
+
+/* Terminal */
+.term{position:relative;background:linear-gradient(180deg,#141419,#0e0e12);border:1px solid var(--line-2);border-radius:var(--radius);box-shadow:0 40px 120px -30px rgba(215,40,47,.45),0 0 0 1px rgba(255,255,255,.02) inset;overflow:hidden}
+.term-bar{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line);font-family:var(--ff-m);font-size:.75rem;color:var(--dim)}
+.term-bar i{width:11px;height:11px;border-radius:50%;background:#2a2a33}
+.term-bar i:nth-child(1){background:#ff5f57}.term-bar i:nth-child(2){background:#febc2e}.term-bar i:nth-child(3){background:#28c840}
+.term-bar .t{margin-left:10px}
+.term-bar .live{margin-left:auto;display:flex;align-items:center;gap:6px;color:var(--ok)}
+.term-bar .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.term-body{padding:18px 18px 22px;font-family:var(--ff-m);font-size:.82rem;line-height:1.85;height:340px;overflow:hidden}
+.term-body .l{white-space:pre-wrap;word-break:break-word;opacity:0;transform:translateY(4px);animation:in .3s forwards}
+@keyframes in{to{opacity:1;transform:none}}
+.c-p{color:var(--cud-2)}.c-ok{color:var(--ok)}.c-w{color:var(--warn)}.c-i{color:var(--info)}.c-d{color:var(--dim)}.c-x{color:#ff6b6b}
+.caret{display:inline-block;width:8px;height:15px;background:#fff;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.term-float{position:absolute;right:-14px;bottom:-18px;background:var(--card-2);border:1px solid var(--line-2);border-radius:14px;padding:12px 16px;font-size:.8rem;display:flex;gap:10px;align-items:center;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+.term-wrap{position:relative}
+.term-float b{font-family:var(--ff-d);font-size:1.3rem;color:#fff}
+@media (max-width:600px){.term-float{right:8px}}
+
+/* Marquee */
+.marquee{border-block:1px solid var(--line);background:var(--bg-2);overflow:hidden;padding:18px 0}
+.marquee-track{display:flex;gap:48px;width:max-content;animation:scroll 40s linear infinite;font-family:var(--ff-d);font-size:1.15rem;color:var(--muted);white-space:nowrap}
+.marquee-track span{display:flex;align-items:center;gap:48px}
+.marquee-track span::after{content:"✦";color:var(--cud)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:56px}
+.stat{background:var(--bg);padding:28px 22px}
+.stat b{display:block;font-family:var(--ff-d);font-size:clamp(2rem,4vw,2.8rem);line-height:1}
+.stat span{color:var(--muted);font-size:.9rem}
+@media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.stat:last-child{grid-column:span 2}}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+@media (max-width:900px){.about-grid{grid-template-columns:1fr}}
+.photo{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line-2);aspect-ratio:4/3}
+.photo img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s}
+.photo:hover img{transform:scale(1.04)}
+.photo figcaption{position:absolute;left:14px;bottom:14px;background:rgba(10,10,13,.75);backdrop-filter:blur(8px);padding:8px 14px;border-radius:999px;font-size:.8rem;border:1px solid var(--line-2)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+@media (max-width:520px){.duo{grid-template-columns:1fr}}
+.duo div{padding:20px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.duo h4{font-family:var(--ff-d);font-size:1.05rem;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.duo p{color:var(--muted);font-size:.92rem}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* Tracks */
+.tracks-head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:48px}
+.tracks{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:1000px){.tracks{grid-template-columns:1fr}}
+.track{position:relative;padding:30px;border-radius:var(--radius);background:linear-gradient(180deg,var(--card),var(--bg-2));border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;transition:border-color .3s,transform .3s}
+.track:hover{border-color:rgba(255,75,82,.45);transform:translateY(-4px)}
+.track::before{content:"";position:absolute;top:-80px;right:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(215,40,47,.35),transparent 70%);opacity:.6;transition:opacity .3s}
+.track:hover::before{opacity:1}
+.track .num{font-family:var(--ff-m);font-size:.75rem;color:var(--cud-2);letter-spacing:.12em}
+.track .ico{width:54px;height:54px;border-radius:14px;background:rgba(215,40,47,.12);border:1px solid rgba(215,40,47,.35);display:grid;place-items:center;margin:18px 0 20px}
+.track .ico svg{width:26px;height:26px;color:var(--cud-2)}
+.track h3{font-size:1.65rem;margin-bottom:4px}
+.track .kicker{color:var(--cud-2);font-weight:600;font-size:.9rem;margin-bottom:14px}
+.track p.desc{color:var(--muted);font-size:.95rem;margin-bottom:18px}
+.brief{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.brief .lbl{font-family:var(--ff-m);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.brief b{font-family:var(--ff-d);font-size:1.05rem}
+.brief p{color:var(--muted);font-size:.88rem;margin-top:4px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tags span{font-size:.74rem;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#d4d4da}
+.tags.red span{background:rgba(215,40,47,.1);border-color:rgba(215,40,47,.3);color:#ffc9cb}
+.roles{display:grid;gap:10px;margin:6px 0 18px;font-size:.86rem}
+.roles div{display:flex;gap:10px;align-items:flex-start}
+.roles em{font-style:normal;font-family:var(--ff-m);font-size:.68rem;padding:3px 8px;border-radius:6px;white-space:nowrap;margin-top:2px}
+.roles .cs em{background:rgba(106,168,255,.12);color:var(--info)}
+.roles .cy em{background:rgba(61,220,151,.12);color:var(--ok)}
+.roles span{color:#d4d4da}
+.track-foot{margin-top:auto;padding-top:16px;border-top:1px dashed var(--line-2);font-size:.85rem;color:var(--muted)}
+.track-foot b{color:#fff;font-weight:600}
+.free-note{display:flex;gap:14px;align-items:center;margin-top:28px;padding:18px 22px;border-radius:14px;background:rgba(61,220,151,.06);border:1px solid rgba(61,220,151,.2);font-size:.95rem}
+.free-note svg{width:22px;height:22px;color:var(--ok);flex:none}
+
+/* Prizes */
+.prizes-sec{background:radial-gradient(800px 400px at 50% 0%,rgba(215,40,47,.18),transparent 70%),var(--bg-2);border-block:1px solid var(--line)}
+.center{text-align:center}.center .lead{margin:0 auto}
+.podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:20px;align-items:end;margin-top:60px}
+@media (max-width:820px){.podium{grid-template-columns:1fr}.podium .p1{order:-1}}
+.prize{position:relative;border-radius:var(--radius);padding:34px 28px;text-align:center;background:var(--card);border:1px solid var(--line-2);overflow:hidden}
+.prize .rank{font-family:var(--ff-m);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.prize .amt{font-family:var(--ff-d);font-weight:700;font-size:clamp(2.6rem,6vw,3.6rem);line-height:1;margin:16px 0 6px}
+.prize .amt small{font-size:.38em;color:var(--muted);font-weight:600;margin-right:6px;vertical-align:.9em}
+.prize .medal{width:64px;height:64px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;font-family:var(--ff-d);font-weight:700;font-size:1.5rem}
+.p1{padding:48px 28px;border-color:rgba(255,75,82,.55);background:linear-gradient(180deg,rgba(215,40,47,.22),var(--card) 70%);box-shadow:0 30px 90px -30px rgba(215,40,47,.7)}
+.p1 .medal{background:linear-gradient(135deg,#ffe08a,#d4a017);color:#3b2a00;box-shadow:0 0 40px rgba(255,210,90,.4)}
+.p2 .medal{background:linear-gradient(135deg,#f1f1f4,#9ea3ad);color:#222}
+.p3 .medal{background:linear-gradient(135deg,#f0b78a,#a8642f);color:#2b1300}
+.p1 .amt{font-size:clamp(3.2rem,7vw,4.6rem)}
+.prize p{color:var(--muted);font-size:.9rem}
+.pool{margin-top:30px;display:inline-flex;gap:12px;align-items:center;font-family:var(--ff-m);font-size:.9rem;color:var(--muted);padding:10px 20px;border-radius:999px;border:1px solid var(--line-2)}
+.pool b{color:#fff}
+
+/* Schedule */
+.days{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+@media (max-width:860px){.days{grid-template-columns:1fr}}
+.day{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);overflow:hidden}
+.day-h{padding:22px 26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(255,255,255,.02)}
+.day-h h3{font-size:1.4rem}
+.day-h span{font-family:var(--ff-m);font-size:.78rem;color:var(--cud-2)}
+.tl{list-style:none;padding:12px 26px 22px}
+.tl li{display:grid;grid-template-columns:70px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);position:relative}
+.tl li:last-child{border-bottom:0}
+.tl time{font-family:var(--ff-m);font-size:.85rem;color:var(--muted);padding-top:1px}
+.tl b{font-weight:600;display:block}
+.tl small{color:var(--dim);font-size:.85rem}
+.tl li.hl b{color:var(--cud-2)}
+.note{margin-top:18px;color:var(--dim);font-size:.85rem;text-align:center}
+
+/* Judging */
+.weights{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:48px}
+@media (max-width:900px){.weights{grid-template-columns:repeat(2,1fr)}.weights .w:first-child{grid-column:span 2}}
+.w{padding:22px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.w .pct{font-family:var(--ff-d);font-size:2.4rem;font-weight:700;line-height:1}
+.w .bar{height:6px;border-radius:9px;background:rgba(255,255,255,.06);margin:14px 0 12px;overflow:hidden}
+.w .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cud),var(--cud-2));border-radius:9px;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.w h4{font-size:.98rem;font-weight:600}
+.w p{color:var(--muted);font-size:.84rem}
+.w.big{background:linear-gradient(180deg,rgba(215,40,47,.16),var(--card));border-color:rgba(215,40,47,.4)}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:40px 0 0}
+@media (max-width:640px){.scale{grid-template-columns:repeat(2,1fr)}}
+.scale div{padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--bg-2);display:flex;gap:12px;align-items:center}
+.scale b{font-family:var(--ff-m);font-size:1.4rem;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex:none}
+.scale div:nth-child(1) b{background:rgba(255,255,255,.06);color:var(--dim)}
+.scale div:nth-child(2) b{background:rgba(255,181,71,.12);color:var(--warn)}
+.scale div:nth-child(3) b{background:rgba(106,168,255,.12);color:var(--info)}
+.scale div:nth-child(4) b{background:rgba(61,220,151,.12);color:var(--ok)}
+.scale span{font-size:.9rem}
+.demo-rule{margin-top:20px;padding:18px 22px;border-radius:14px;border:1px dashed rgba(255,75,82,.45);background:rgba(215,40,47,.06);font-size:.95rem}
+.demo-rule b{color:var(--cud-2)}
+.rubric{margin-top:56px}
+.tabs{display:flex;gap:6px;padding:6px;border-radius:999px;background:var(--card);border:1px solid var(--line);width:max-content;max-width:100%;overflow-x:auto}
+.tabs button{padding:10px 18px;border-radius:999px;font-size:.9rem;color:var(--muted);white-space:nowrap;transition:.2s}
+.tabs button[aria-selected=true]{background:var(--cud);color:#fff}
+.table-wrap{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{text-align:left;padding:16px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--ff-m);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:var(--bg-2);font-weight:500}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;color:#fff;width:22%}
+td{color:#cfcfd6}
+td.s1{border-left:2px solid rgba(255,181,71,.4)} td.s2{border-left:2px solid rgba(106,168,255,.4)} td.s3{border-left:2px solid rgba(61,220,151,.4)}
+@media (max-width:760px){
+  thead{display:none}
+  table,tbody,tr,td{display:block;width:100%}
+  tr{padding:16px;border-bottom:1px solid var(--line)}
+  td{border:0;padding:6px 0 6px 12px}
+  td:first-child{width:auto;padding-left:0;font-size:1rem;margin-bottom:6px}
+  td[data-l]::before{content:attr(data-l);display:block;font-family:var(--ff-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+}
+
+/* Showdown */
+.showdown{border-radius:28px;padding:56px;position:relative;overflow:hidden;background:#0d0d11;border:1px solid var(--line-2)}
+.showdown::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 300px at 15% 50%,rgba(106,168,255,.18),transparent 70%),radial-gradient(500px 300px at 85% 50%,rgba(215,40,47,.25),transparent 70%)}
+.showdown>*{position:relative}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:30px;align-items:center;margin-top:36px}
+.vs .side{padding:26px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line-2)}
+.vs .side small{font-family:var(--ff-m);font-size:.72rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase}
+.vs .side h4{font-family:var(--ff-d);font-size:1.4rem;margin:6px 0}
+.vs .side p{color:var(--muted);font-size:.9rem}
+.vs .mid{font-family:var(--ff-d);font-weight:700;font-size:2.4rem;color:var(--cud-2);text-shadow:0 0 30px rgba(255,75,82,.7)}
+@media (max-width:760px){.showdown{padding:32px 20px}.vs{grid-template-columns:1fr}.vs .mid{text-align:center}}
+.badge-opt{display:inline-block;font-family:var(--ff-m);font-size:.7rem;padding:4px 10px;border-radius:999px;border:1px solid var(--warn);color:var(--warn);margin-left:10px;vertical-align:middle;letter-spacing:.08em}
+
+/* Deliverables */
+.deliv{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+@media (max-width:900px){.deliv{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.deliv{grid-template-columns:1fr}}
+.dv{padding:26px;border-radius:16px;background:var(--card);border:1px solid var(--line);transition:.3s}
+.dv:hover{border-color:var(--line-2);background:var(--card-2)}
+.dv svg{width:28px;height:28px;color:var(--cud-2);margin-bottom:16px}
+.dv h4{font-family:var(--ff-d);font-size:1.12rem;margin-bottom:6px}
+.dv p{color:var(--muted);font-size:.88rem}
+.dv code{font-family:var(--ff-m);font-size:.8rem;background:rgba(255,255,255,.06);padding:2px 6px;border-radius:5px}
+
+/* Partners */
+.partners{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+@media (max-width:860px){.partners{grid-template-columns:1fr}}
+.partner{padding:34px 30px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;gap:18px}
+.partner .logo-box{height:90px;border-radius:12px;display:grid;place-items:center;padding:16px}
+.partner .logo-box img{max-height:56px;width:auto}
+.lb-light{background:#fff}
+.lb-dark{background:#0d0d11;border:1px solid var(--line)}
+.partner small{font-family:var(--ff-m);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cud-2)}
+.partner h4{font-family:var(--ff-d);font-size:1.3rem}
+.partner p{color:var(--muted);font-size:.92rem}
+.sec-logo{display:flex;align-items:center;gap:12px;font-family:var(--ff-d);font-weight:700;font-size:1.3rem;color:#fff}
+.sec-logo svg{width:44px;height:44px}
+
+/* FAQ */
+.faq{max-width:860px;margin:44px auto 0}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:24px 0;display:flex;justify-content:space-between;gap:20px;font-family:var(--ff-d);font-size:1.15rem;font-weight:600}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--line-2);position:relative;transition:.3s}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.5px;background:#fff;transform:translate(-50%,-50%);transition:.3s}
+.faq summary i::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq details[open] summary i{background:var(--cud);border-color:var(--cud)}
+.faq details[open] summary i::after{transform:translate(-50%,-50%) rotate(0)}
+.faq .ans{color:var(--muted);padding:0 50px 24px 0;font-size:.98rem}
+
+/* CTA */
+.cta{border-radius:28px;padding:80px 40px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(135deg,#a3141b 0%,#d7282f 45%,#e00800 100%)}
+.cta::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(circle at 50% 50%,#000,transparent 75%);-webkit-mask-image:radial-gradient(circle at 50% 50%,#000,transparent 75%)}
+.cta>*{position:relative;z-index:1}
+.cta h2{font-size:clamp(2.2rem,6vw,4rem)}
+.cta p{max-width:560px;margin:0 auto 32px;color:rgba(255,255,255,.88);font-size:1.1rem}
+.cta .btn-primary{background:#fff;color:#a3141b;box-shadow:0 20px 50px -10px rgba(0,0,0,.5)}
+.cta .btn-ghost{border-color:rgba(255,255,255,.5)}
+.cta .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+@media (max-width:600px){.cta{padding:56px 20px}}
+
+/* Footer */
+footer{padding:60px 0 40px;border-top:1px solid var(--line);margin-top:120px}
+.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
+.foot .brand img.cud{height:44px}
+.foot-links{display:flex;gap:22px;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+.foot-links a:hover{color:#fff}
+.copy{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);color:var(--dim);font-size:.82rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* Reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" class="brand" aria-label="CUD Agent Hackathon home">
+      <img class="cud" src="assets/cud-logo-white.svg" alt="Canadian University Dubai" width="139" height="38">
+      <span class="x">×</span>
+      <img class="et" src="assets/etisalat-logo-white.svg" alt="etisalat by e&amp;" width="86" height="18">
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#tracks">Tracks</a>
+      <a href="#prizes">Prizes</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#judging">Judging</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-primary nav-cta js-register" href="#register">Register team</a>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div>
+      <span class="pill"><b>First edition</b> Software Engineering Club × etisalat by e&amp;</span>
+      <h1>CUD Agent<span class="line2">Hackathon</span></h1>
+      <p class="tagline"><strong>Build the agent. Survive the agents. Put the agent to work.</strong> A Computer Science × Cybersecurity hackathon about autonomous software that acts on other software.</p>
+      <div class="meta">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Fri 20 – Sat 21 Nov 2026</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-7.5-8-13a8 8 0 0 1 16 0c0 5.5-8 13-8 13z"/><circle cx="12" cy="9" r="3"/></svg>Canadian University Dubai, City Walk</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>AED 9,000 in prizes</div>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-primary js-register" href="#register">Register your team
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        <a class="btn btn-ghost" href="#tracks">Explore the tracks</a>
+      </div>
+      <div class="countdown" id="countdown" aria-label="Countdown to kickoff">
+        <div class="cd"><b id="cd-d">--</b><span>Days</span></div>
+        <div class="cd"><b id="cd-h">--</b><span>Hours</span></div>
+        <div class="cd"><b id="cd-m">--</b><span>Mins</span></div>
+        <div class="cd"><b id="cd-s">--</b><span>Secs</span></div>
+      </div>
+    </div>
+    <div class="term-wrap rv">
+      <div class="term" role="img" aria-label="Animated terminal showing agents testing websites, defending a ticketing platform, and refusing a phishing trap">
+        <div class="term-bar"><i></i><i></i><i></i><span class="t">agent@cud-hackathon ~ </span><span class="live">live</span></div>
+        <div class="term-body" id="term"></div>
+      </div>
+      <div class="term-float"><span>🏆</span><div><b>AED 5,000</b><br><span style="color:var(--muted)">to the winning team</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Browser automation</span><span>Website QA bots</span><span>Rate limiting</span><span>Signed QR tickets</span><span>Trap detection</span><span>Threat modelling</span><span>Accessibility audits</span><span>Access control</span><span>Error recovery</span><span>Open-source only</span>
+    <span>Browser automation</span><span>Website QA bots</span><span>Rate limiting</span><span>Signed QR tickets</span><span>Trap detection</span><span>Threat modelling</span><span>Accessibility audits</span><span>Access control</span><span>Error recovery</span><span>Open-source only</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="rv">
+        <span class="eyebrow">About the event</span>
+        <h2>Software that acts on <span class="grad">other software.</span></h2>
+        <p class="lead">A growing share of the web is driven by agents: bots that click, crawl, buy and fill in forms. Over one weekend, about 20 teams of four will build an agent, build a product that holds up against agents, or put an agent to work for a real user.</p>
+        <div class="duo">
+          <div><h4><span class="dot" style="background:var(--info)"></span>Computer Science leads the build</h4><p>Architecture, automation, back end, front end. Turning the brief into a working product.</p></div>
+          <div><h4><span class="dot" style="background:var(--ok)"></span>Cybersecurity owns half the score</h4><p>Threat models, security checks, trap detection, safe data handling. Graded live.</p></div>
+        </div>
+      </div>
+      <figure class="photo rv">
+        <img src="assets/campus.jpg" alt="Canadian University Dubai campus at City Walk with the Burj Khalifa in the background" loading="lazy" width="1600" height="1073">
+        <figcaption>📍 Canadian University Dubai · City Walk</figcaption>
+      </figure>
+    </div>
+    <div class="stats rv">
+      <div class="stat"><b data-count="20">20</b><span>teams</span></div>
+      <div class="stat"><b data-count="4">4</b><span>students per team</span></div>
+      <div class="stat"><b data-count="3">3</b><span>tracks</span></div>
+      <div class="stat"><b data-count="2">2</b><span>days of building</span></div>
+      <div class="stat"><b>AED <span data-count="9">9</span>K</b><span>prize pool</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKS -->
+<section id="tracks" style="padding-top:40px">
+  <div class="wrap">
+    <div class="tracks-head rv">
+      <div>
+        <span class="eyebrow">The tracks</span>
+        <h2>Pick your side of the agent.</h2>
+        <p class="lead">Every track has one brief and five required outcomes, graded live by the judges. Teams mix CS and Cybersecurity students by design.</p>
+      </div>
+    </div>
+    <div class="tracks">
+      <!-- T1 -->
+      <article class="track rv">
+        <span class="num">TRACK 01</span>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8 11l2 2 4-4"/></svg></div>
+        <h3>Build the Agent</h3>
+        <div class="kicker">Testing Agent</div>
+        <p class="desc">Software ships faster than people can test it. Build an agent that you point at a live website. It explores the site on its own and reports real problems with evidence a developer can act on.</p>
+        <div class="brief">
+          <div class="lbl">Brief</div>
+          <b>Website QA Bot</b>
+          <p>Takes a URL, returns a quality report: overall grade, score per area, plus a screenshot, steps to reproduce and a suggested fix for every finding.</p>
+          <div class="tags"><span>Links &amp; forms</span><span>Checkout flows</span><span>Accessibility</span><span>Performance</span><span>Headers &amp; cookies</span><span>Exposed files</span></div>
+        </div>
+        <div class="roles">
+          <div class="cs"><em>CS</em><span>Crawler, browser automation, report interface</span></div>
+          <div class="cy"><em>CYBER</em><span>Security checks, severity ratings, fix guidance</span></div>
+        </div>
+        <div class="track-foot"><b>Value:</b> QA-team testing for small businesses at no cost per run.<br><b>Similar:</b> Checkly, Mabl</div>
+      </article>
+      <!-- T2 -->
+      <article class="track rv">
+        <span class="num">TRACK 02</span>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3>Survive the Agents</h3>
+        <div class="kicker">Agent-Proof Platform</div>
+        <p class="desc">A growing share of web traffic is automated. Build a real product for real users that keeps working correctly when automated clients try to abuse it.</p>
+        <div class="brief">
+          <div class="lbl">Brief</div>
+          <b>Event Ticketing Platform</b>
+          <p>Ticketing for campus events: register &amp; log in, browse events, buy tickets (max 4 per user per event), a QR ticket that admits once, and an organiser view of sales and check-ins.</p>
+          <div class="tags red"><span>Forged tickets</span><span>Reused tickets</span><span>Over-limit buys</span><span>Overselling</span><span>Order snooping</span><span>Price tampering</span><span>Password guessing</span></div>
+        </div>
+        <div class="roles">
+          <div class="cs"><em>CS</em><span>Back end, database, purchase flow, QR tickets, front end</span></div>
+          <div class="cy"><em>CYBER</em><span>Threat model, ticket signing, access control, rate limiting</span></div>
+        </div>
+        <div class="track-foot"><b>Value:</b> Fair access for fans, no revenue lost to scalper bots.<br><b>Similar:</b> Platinumlist, DICE</div>
+      </article>
+      <!-- T3 -->
+      <article class="track rv">
+        <span class="num">TRACK 03</span>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M8 4h8M9 14h.01M15 14h.01"/></svg></div>
+        <h3>Put the Agent to Work</h3>
+        <div class="kicker">Personal Task Agent</div>
+        <p class="desc">An assistant that a misleading page can fool is a liability to its user. Build an agent that finishes a real chore across websites and can't be tricked along the way. Choose one brief:</p>
+        <div class="brief">
+          <div class="lbl">Brief A</div>
+          <b>Subscription Canceller</b>
+          <div class="tags red"><span>Hidden cancel buttons</span><span>"Pause instead" detours</span><span>Card re-entry forms</span><span>Fake confirmations</span></div>
+        </div>
+        <div class="brief">
+          <div class="lbl">Brief B</div>
+          <b>Job Application Agent</b>
+          <div class="tags red"><span>Scam listings</span><span>Bank / passport requests</span><span>Lookalike logins</span></div>
+        </div>
+        <div class="roles">
+          <div class="cs"><em>CS</em><span>Browser automation, task planning, error recovery, activity log</span></div>
+          <div class="cy"><em>CYBER</em><span>Safe data handling, page verification, trap detection</span></div>
+        </div>
+        <div class="track-foot"><b>Value:</b> Stops unwanted charges and saves hours of form filling.<br><b>Similar:</b> Rocket Money, Simplify</div>
+      </article>
+    </div>
+    <div class="free-note rv">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+      <div><b>No AI credits required.</b> <span style="color:var(--muted)">An agent can be a browser automation bot. Free, open-source tools are all you need.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIZES -->
+<section id="prizes" class="prizes-sec">
+  <div class="wrap center">
+    <span class="eyebrow rv">Prizes</span>
+    <h2 class="rv">AED 9,000 on the line.</h2>
+    <p class="lead rv">The top three teams overall take home cash prizes, plus bragging rights across campus.</p>
+    <div class="podium">
+      <div class="prize p2 rv"><div class="medal">2</div><div class="rank">Second place</div><div class="amt"><small>AED</small><span data-count="3000" data-fmt="1">3,000</span></div><p>Runner-up</p></div>
+      <div class="prize p1 rv"><div class="medal">1</div><div class="rank">First place</div><div class="amt"><small>AED</small><span data-count="5000" data-fmt="1">5,000</span></div><p>Champion of the first CUD Agent Hackathon</p></div>
+      <div class="prize p3 rv"><div class="medal">3</div><div class="rank">Third place</div><div class="amt"><small>AED</small><span data-count="1000" data-fmt="1">1,000</span></div><p>Third place</p></div>
+    </div>
+    <div class="pool rv">Total prize pool <b>AED 9,000</b></div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="wrap">
+    <div class="center">
+      <span class="eyebrow rv">Schedule</span>
+      <h2 class="rv">Two days. One weekend.</h2>
+      <p class="lead rv">Friday 20 &amp; Saturday 21 November 2026 at the CUD campus, City Walk, Dubai.</p>
+    </div>
+    <div class="days">
+      <div class="day rv">
+        <div class="day-h"><h3>Day 1 · Build</h3><span>FRI 20 NOV</span></div>
+        <ol class="tl">
+          <li><time>08:30</time><div><b>Check-in &amp; breakfast</b><small>Badge pick-up, team tables, Wi-Fi</small></div></li>
+          <li class="hl"><time>09:30</time><div><b>Opening ceremony</b><small>Welcome from CUD, the Software Engineering Club and etisalat by e&amp;</small></div></li>
+          <li><time>10:00</time><div><b>Kickoff: briefs &amp; rubrics published</b><small>Outcomes, rubrics and rules released to all teams</small></div></li>
+          <li class="hl"><time>10:30</time><div><b>Hacking begins</b><small>Build, test, break, repeat</small></div></li>
+          <li><time>13:00</time><div><b>Lunch</b></div></li>
+          <li><time>15:00</time><div><b>Mentor round #1</b><small>CS and Cybersecurity mentors visit every team</small></div></li>
+          <li><time>19:00</time><div><b>Checkpoint &amp; dinner</b><small>Quick progress check with organisers</small></div></li>
+        </ol>
+      </div>
+      <div class="day rv">
+        <div class="day-h"><h3>Day 2 · Demo</h3><span>SAT 21 NOV</span></div>
+        <ol class="tl">
+          <li><time>09:00</time><div><b>Breakfast &amp; final sprint</b></div></li>
+          <li><time>11:00</time><div><b>Mentor round #2</b><small>Demo dry runs and security review</small></div></li>
+          <li class="hl"><time>13:00</time><div><b>Code freeze</b><small>Repo, README and design note submitted</small></div></li>
+          <li><time>13:30</time><div><b>Lunch</b></div></li>
+          <li class="hl"><time>14:00</time><div><b>Live judging</b><small>5-minute demo + 2 minutes of questions per team</small></div></li>
+          <li><time>17:00</time><div><b>Live Showdown</b> <small>(optional finale) Testing Agents vs. Ticketing Platforms</small></div></li>
+          <li class="hl"><time>18:00</time><div><b>Awards &amp; closing</b><small>AED 5K · 3K · 1K</small></div></li>
+        </ol>
+      </div>
+    </div>
+    <p class="note">Times are indicative and may change. The final agenda is shared with registered teams.</p>
+  </div>
+</section>
+
+<!-- JUDGING -->
+<section id="judging" style="background:var(--bg-2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <span class="eyebrow rv">Judging</span>
+    <h2 class="rv">Graded on fixed, live outcomes.</h2>
+    <p class="lead rv">No slideware. Judges score each required outcome during your live demo, and they choose the input.</p>
+    <div class="weights">
+      <div class="w big rv"><div class="pct">50%</div><div class="bar"><i data-w="100"></i></div><h4>Required outcomes</h4><p>Five per track, scored 0–3 each (15 points)</p></div>
+      <div class="w rv"><div class="pct">20%</div><div class="bar"><i data-w="40"></i></div><h4>Application of technology</h4><p>Code quality, architecture</p></div>
+      <div class="w rv"><div class="pct">10%</div><div class="bar"><i data-w="20"></i></div><h4>Business value</h4><p>Would someone pay for this?</p></div>
+      <div class="w rv"><div class="pct">10%</div><div class="bar"><i data-w="20"></i></div><h4>Presentation</h4><p>Clear demo, both disciplines</p></div>
+      <div class="w rv"><div class="pct">10%</div><div class="bar"><i data-w="20"></i></div><h4>Originality</h4><p>Ideas beyond the brief</p></div>
+    </div>
+    <div class="scale rv">
+      <div><b>0</b><span>Not shown</span></div>
+      <div><b>1</b><span>Partial</span></div>
+      <div><b>2</b><span>Meets</span></div>
+      <div><b>3</b><span>Exceeds</span></div>
+    </div>
+    <div class="demo-rule rv"><b>Demo rule.</b> The judge picks the input: the website for Track 1, a misuse attempt for Track 2, the task for Track 3.</div>
+
+    <div class="rubric rv">
+      <h3 style="font-size:1.6rem;margin-bottom:18px">Outcome rubrics</h3>
+      <div class="tabs" role="tablist" aria-label="Rubric by track">
+        <button role="tab" aria-selected="true" data-t="0">Track 1 · Testing Agent</button>
+        <button role="tab" aria-selected="false" data-t="1">Track 2 · Agent-Proof Platform</button>
+        <button role="tab" aria-selected="false" data-t="2">Track 3 · Personal Task Agent</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Outcome</th><th>1 · Partial</th><th>2 · Meets</th><th>3 · Exceeds</th></tr></thead>
+          <tbody id="rubric"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWDOWN -->
+<section style="padding-bottom:40px">
+  <div class="wrap">
+    <div class="showdown rv">
+      <span class="eyebrow">Finale</span>
+      <h2>Live Showdown <span class="badge-opt">IF TIME ALLOWS</span></h2>
+      <p class="lead">The top Testing Agents from Track 1 run live against the top ticketing platforms from Track 2, in front of the audience.</p>
+      <div class="vs">
+        <div class="side"><small>Track 01 · Attackers</small><h4>Testing Agents</h4><p>Crawl, probe and report every weakness they can find.</p></div>
+        <div class="mid">VS</div>
+        <div class="side"><small>Track 02 · Defenders</small><h4>Agent-Proof Platforms</h4><p>Stay correct under automated abuse: no oversells, no reused tickets.</p></div>
+      </div>
+      <p style="margin-top:24px;color:var(--dim);font-size:.88rem">The Showdown decides showcase prizes only. Track rankings are fixed before it starts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section id="deliverables">
+  <div class="wrap">
+    <span class="eyebrow rv">What you submit</span>
+    <h2 class="rv">Team deliverables</h2>
+    <div class="deliv">
+      <div class="dv rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m4 17 6-6-6-6M12 19h8"/></svg><h4>Working build</h4><p>Runs with <code>one command</code>. No ten-step setup.</p></div>
+      <div class="dv rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg><h4>Public repository</h4><p>With a clear README that explains what it does and how to run it.</p></div>
+      <div class="dv rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg><h4>One-page design note</h4><p>Architecture, threat model and the key decisions you made.</p></div>
+      <div class="dv rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="m10 8 5 3-5 3zM8 22h8"/></svg><h4>5-min demo + 2-min Q&amp;A</h4><p>Live, on the judge's input. Both disciplines present.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section id="partners" style="padding-top:20px">
+  <div class="wrap">
+    <div class="center">
+      <span class="eyebrow rv">Organisers &amp; partners</span>
+      <h2 class="rv">Brought to you by</h2>
+    </div>
+    <div class="partners">
+      <div class="partner rv">
+        <div class="logo-box lb-dark"><img src="assets/cud-logo-white.svg" alt="Canadian University Dubai" loading="lazy"></div>
+        <small>Host university</small>
+        <h4>Canadian University Dubai</h4>
+        <p>A Canadian education in the heart of Dubai. The campus at City Walk hosts the first edition of the Agent Hackathon.</p>
+      </div>
+      <div class="partner rv">
+        <div class="logo-box lb-dark"><div class="sec-logo"><svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="#d7282f"/><path d="m18 17-7 7 7 7M30 17l7 7-7 7M26 13l-4 22" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Software<br>Engineering Club</span></div></div>
+        <small>Organiser</small>
+        <h4>CUD Software Engineering Club</h4>
+        <p>The student club that runs the hackathon: briefs, mentoring, judging and the weekend itself.</p>
+      </div>
+      <div class="partner rv">
+        <div class="logo-box lb-light"><img src="assets/etisalat-logo-red.svg" alt="etisalat by e&amp;" loading="lazy" style="max-height:40px"></div>
+        <small>Official partner</small>
+        <h4>etisalat by e&amp;</h4>
+        <p>The UAE's leading telecom and technology group, supporting the next generation of builders and defenders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding-top:40px">
+  <div class="wrap">
+    <div class="center">
+      <span class="eyebrow rv">FAQ</span>
+      <h2 class="rv">Questions, answered.</h2>
+    </div>
+    <div class="faq rv">
+      <details><summary>Who can take part?<i></i></summary><div class="ans">The hackathon is designed for Computer Science and Cybersecurity students. Each team of four mixes both disciplines: CS leads the build, and Cybersecurity owns half of the score.</div></details>
+      <details><summary>How big are teams, and how many will there be?<i></i></summary><div class="ans">About 20 teams of four students. If you don't have a full team, register anyway and we'll help you find teammates from the other discipline.</div></details>
+      <details><summary>Do I need paid AI credits or API keys?<i></i></summary><div class="ans">No. An agent can be a browser automation bot (for example Playwright, Puppeteer or Selenium). Free, open-source tools are enough to score full marks.</div></details>
+      <details><summary>Do we choose our track?<i></i></summary><div class="ans">Track allocation will be confirmed before kickoff. Either teams choose their track or the organisers assign one to balance the field. All registered teams will be told in advance.</div></details>
+      <details><summary>How is the winner decided?<i></i></summary><div class="ans">50% comes from five required outcomes per track, each scored 0–3 live by the judges. The other 50% is split between Application of Technology (20%), Business Value (10%), Presentation (10%) and Originality (10%). Rubrics are published at kickoff.</div></details>
+      <details><summary>What are the prizes?<i></i></summary><div class="ans">AED 5,000 for 1st place, AED 3,000 for 2nd and AED 1,000 for 3rd. If the optional Live Showdown runs, it awards showcase prizes only and does not change track rankings.</div></details>
+      <details><summary>Can we start building before the event?<i></i></summary><div class="ans">Briefs and rubrics are published at kickoff, and all project code must be written during the hackathon. You're welcome to learn your tools beforehand: brush up on browser automation, auth and rate limiting.</div></details>
+      <details><summary>What should I bring?<i></i></summary><div class="ans">Your laptop, charger, student ID and anything that keeps you comfortable over two days. Food and Wi-Fi are on us.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="register" style="padding-top:40px;padding-bottom:0">
+  <div class="wrap">
+    <div class="cta rv">
+      <span class="eyebrow" style="color:#fff">20 – 21 November 2026</span>
+      <h2>Ready to build an agent?</h2>
+      <p>Spots are limited to about 20 teams. Grab three teammates, mix CS with Cybersecurity, and register before seats run out.</p>
+      <div class="row">
+        <a class="btn btn-primary js-register" href="#register" id="regBtn">Register your team
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        <a class="btn btn-ghost" id="mailBtn" href="mailto:">Contact organisers</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand">
+        <img class="cud" src="assets/cud-logo-white.svg" alt="Canadian University Dubai" width="161" height="44">
+        <span class="x">×</span>
+        <img class="et" src="assets/etisalat-logo-white.svg" alt="etisalat by e&amp;" width="96" height="20" style="height:20px">
+      </div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="#tracks">Tracks</a><a href="#prizes">Prizes</a><a href="#schedule">Schedule</a><a href="#judging">Judging</a><a href="#faq">FAQ</a>
+        <a href="https://www.cud.ac.ae" target="_blank" rel="noopener">cud.ac.ae ↗</a>
+      </nav>
+    </div>
+    <div class="copy">
+      <span>© 2026 CUD Agent Hackathon · Software Engineering Club, Canadian University Dubai</span>
+      <span>In partnership with etisalat by e&amp;</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ EDIT ME ============ */
+const CONFIG = {
+  registerUrl: "",                         // e.g. Google Form / Microsoft Form link. Empty = scrolls to #register
+  contactEmail: "",                        // e.g. "seclub@cud.ac.ae"
+  kickoff: "2026-11-20T09:30:00+04:00"     // Dubai time (GST, UTC+4)
+};
+/* ================================= */
+
+// Register / contact links
+if (CONFIG.registerUrl) document.querySelectorAll('.js-register').forEach(a => { a.href = CONFIG.registerUrl; a.target = "_blank"; a.rel = "noopener"; });
+const mail = document.getElementById('mailBtn');
+if (CONFIG.contactEmail) mail.href = "mailto:" + CONFIG.contactEmail + "?subject=CUD%20Agent%20Hackathon"; else mail.remove();
+
+// Nav
+const nav = document.getElementById('nav'), burger = document.getElementById('burger');
+const onScroll = () => nav.classList.toggle('scrolled', scrollY > 20);
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); burger.setAttribute('aria-expanded', false); }));
+
+// Countdown
+const target = new Date(CONFIG.kickoff).getTime();
+const pad = n => String(n).padStart(2,'0');
+function tick(){
+  let d = Math.max(0, target - Date.now());
+  const D = Math.floor(d/864e5); d -= D*864e5;
+  const H = Math.floor(d/36e5); d -= H*36e5;
+  const M = Math.floor(d/6e4); d -= M*6e4;
+  const S = Math.floor(d/1e3);
+  document.getElementById('cd-d').textContent = pad(D);
+  document.getElementById('cd-h').textContent = pad(H);
+  document.getElementById('cd-m').textContent = pad(M);
+  document.getElementById('cd-s').textContent = pad(S);
+  if (target - Date.now() <= 0) document.getElementById('countdown').innerHTML = '<div class="pill"><b>Live</b> The hackathon is on!</div>';
+}
+tick(); const cdTimer = setInterval(() => { tick(); if (target <= Date.now()) clearInterval(cdTimer); }, 1000);
+
+// Terminal animation
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const script = [
+  ['c-d','# track 01 · testing agent'],
+  ['c-p','$ qa-bot scan https://tickets.demo.test'],
+  ['c-i','→ crawling… 42 pages · 118 links · 9 forms'],
+  ['c-ok','✓ checkout flow completed in 6 steps'],
+  ['c-x','✗ broken link  /events/past  → 404'],
+  ['c-w','⚠ missing Content-Security-Policy  [medium]'],
+  ['c-w','⚠ /.env publicly readable           [critical]'],
+  ['','  report → grade B-  · a11y 81 · perf 74 · sec 58'],
+  ['c-d','# track 02 · agent-proof platform'],
+  ['c-p','$ attack --buy 9 --event "Spring Gala"'],
+  ['c-ok','✓ 429 rate limited after 4 tickets · limit holds'],
+  ['c-ok','✓ forged QR signature rejected'],
+  ['c-ok','✓ second scan → ALREADY ADMITTED'],
+  ['c-d','# track 03 · personal task agent'],
+  ['c-p','$ agent cancel --list subscriptions.json'],
+  ['c-i','→ found "Pause instead?" detour, skipping'],
+  ['c-x','✗ page requests card details again'],
+  ['c-ok','✓ trap refused · asked user before sharing data'],
+  ['c-ok','✓ 3/3 subscriptions cancelled · log saved'],
+];
+const term = document.getElementById('term');
+if (reduce) { term.innerHTML = script.slice(0,10).map(([c,t]) => `<div class="l ${c}" style="opacity:1;transform:none">${t}</div>`).join(''); }
+else {
+  let i = 0;
+  const caret = document.createElement('span'); caret.className = 'caret';
+  function step(){
+    if (i >= script.length){ setTimeout(() => { term.innerHTML=''; i=0; step(); }, 2600); return; }
+    const [c,t] = script[i++];
+    const el = document.createElement('div'); el.className = 'l ' + c; el.textContent = t;
+    caret.remove(); el.appendChild(caret); term.appendChild(el);
+    while (term.scrollHeight > term.clientHeight && term.firstChild) term.removeChild(term.firstChild);
+    setTimeout(step, t.startsWith('$') ? 900 : t.startsWith('#') ? 500 : 520);
+  }
+  step();
+}
+
+// Agent network canvas
+(function(){
+  const cv = document.getElementById('net'), ctx = cv.getContext('2d');
+  let W, H, pts = [], dpr = Math.min(devicePixelRatio || 1, 2);
+  function size(){
+    W = cv.offsetWidth; H = cv.offsetHeight; cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    const n = Math.min(70, Math.floor(W*H/22000));
+    pts = Array.from({length:n}, () => ({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35, r:Math.random()*1.6+.6, red:Math.random()<.18}));
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for (const p of pts){ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1; }
+    for (let a=0;a<pts.length;a++) for (let b=a+1;b<pts.length;b++){
+      const dx=pts[a].x-pts[b].x, dy=pts[a].y-pts[b].y, d=dx*dx+dy*dy;
+      if (d<16000){ ctx.strokeStyle=`rgba(255,255,255,${.12*(1-d/16000)})`; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(pts[a].x,pts[a].y); ctx.lineTo(pts[b].x,pts[b].y); ctx.stroke(); }
+    }
+    for (const p of pts){ ctx.fillStyle = p.red ? '#ff4b52' : 'rgba(255,255,255,.6)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.red?p.r+1:p.r,0,7); ctx.fill(); }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+  size(); draw(); addEventListener('resize', size);
+})();
+
+// Rubrics
+const RUBRICS = [
+  [
+    ['Crawls a site on its own','Visits only the given page, or needs manual steps','Follows links and covers most of the site from one URL','Also handles logins, forms, and multi-step flows'],
+    ['Finds functional problems','Finds one type, such as broken links','Finds broken links and failing forms','Also finds a broken sign-up or checkout flow'],
+    ['Finds accessibility & performance problems','Covers one of the two areas','Covers both, with at least two checks each','Ranks the findings by impact'],
+    ['Finds security problems','Lists issues without severity','Finds header, cookie, or exposed-file issues and rates severity','Few false positives; explains each risk in plain language'],
+    ['Produces a report','Raw list of findings','Overall grade, score per area, evidence per finding','Screenshot, steps to reproduce, and fix per finding'],
+  ],
+  [
+    ['Purchase flow works','Some steps work','Register, buy, and receive a QR ticket all work','Clear error messages for invalid input'],
+    ['Tickets admit once','Ticket scans but can be reused','Second scan of the same ticket is rejected','Edited or forged tickets are also rejected'],
+    ['Purchase limit holds','Enforced in the interface only','Enforced on the server','Holds under rapid repeated requests, with no overselling'],
+    ['Orders stay private',"Other users' orders hidden in the interface only","Server blocks access to other users' orders",'Also blocks changes, cancellations, and price tampering'],
+    ['Organiser view','Shows events only','Shows sales and check-ins','Updates live, and only organisers can open it'],
+  ],
+  [
+    ['Completes the chore','Completes it with human help','Completes it end to end unaided','Completes several tasks in one run'],
+    ['Recovers from failure','Stops at the first error','Retries or reports clearly when a step fails','Adapts when the page layout changes'],
+    ['Keeps data safe','Credentials are hard-coded or appear in logs','Credentials stored safely; only data the task needs is shared','Asks the user before sharing sensitive data'],
+    ['Refuses traps','Detects one kind of trap','Detects and refuses two kinds','Detects three or more and explains why'],
+    ['Logs its activity','Basic output','Clear step-by-step log','Log includes evidence and flags anything suspicious'],
+  ],
+];
+const tb = document.getElementById('rubric'), tabs = document.querySelectorAll('.tabs button');
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function showRubric(t){
+  tb.innerHTML = RUBRICS[t].map(r => `<tr><td>${esc(r[0])}</td><td class="s1" data-l="1 · Partial">${esc(r[1])}</td><td class="s2" data-l="2 · Meets">${esc(r[2])}</td><td class="s3" data-l="3 · Exceeds">${esc(r[3])}</td></tr>`).join('');
+  tabs.forEach((b,i) => b.setAttribute('aria-selected', i===t));
+}
+tabs.forEach(b => b.addEventListener('click', () => showRubric(+b.dataset.t)));
+showRubric(0);
+
+// Reveal + counters + bars
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  const el = e.target; el.classList.add('on');
+  el.querySelectorAll('[data-w]').forEach(b => b.style.width = b.dataset.w + '%');
+  el.querySelectorAll('[data-count]').forEach(c => {
+    if (reduce || c.dataset.done) return; c.dataset.done = 1;
+    const end = +c.dataset.count, fmt = c.dataset.fmt, t0 = performance.now(), dur = 1200;
+    const f = now => { const k = Math.min(1,(now-t0)/dur), v = Math.round(end*(1-Math.pow(1-k,3)));
+      c.textContent = fmt ? v.toLocaleString('en-US') : v; if (k<1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  });
+  io.unobserve(el);
+}), {threshold:.15});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
